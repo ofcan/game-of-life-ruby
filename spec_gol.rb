@@ -3,6 +3,9 @@ require_relative 'gol.rb'
   
 describe 'Game of life' do
 
+  let!(:world) { World.new }
+  let!(:cell) { Cell.new }
+
   context 'Cell' do
     subject { Cell.new }
 
@@ -56,6 +59,22 @@ describe 'Game of life' do
       subject.neighbours.count.should == 1
     end
 
+    it 'Creates a live cell' do
+      cell.should be_alive
+    end
+
+    it 'Kills a cell' do
+      cell.die!
+      cell.should be_dead
+    end
+
+    it 'Revives a dead cell' do
+      cell.die!
+      cell.should_not be_alive
+      cell.revive!
+      cell.should be_alive
+    end
+
   end
 
   context 'World' do
@@ -75,8 +94,10 @@ describe 'Game of life' do
 
   context 'Rules' do
     it '1. Any live cell with fewer than two live neighbours dies, as if caused by under-population.' do
-      cell = Cell.new
       cell.neighbours.count.should == 0
+      neighbour_cell = Cell.new(cell.world, 1, 0)
+      cell.world.tick!
+      cell.should be_dead
     end
   end
 

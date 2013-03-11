@@ -17,37 +17,30 @@ class Cell
       if self.x == cell.x && self.y == cell.y - 1
         @neighbours << cell
       end
-
       # Detects neighbour to the north-east
       if self.x == cell.x - 1 && self.y == cell.y - 1
         @neighbours << cell
       end
-
       # Detects neighbour to the east
       if self.x == cell.x - 1 && self.y == cell.y
         @neighbours << cell
       end
-
       # Detects neighbour to the south-east
       if self.x == cell.x - 1 && self.y == cell.y + 1
         @neighbours << cell
       end
-
       # Detects neighbour to the south
       if self.x == cell.x && self.y == cell.y + 1
         @neighbours << cell
       end
-
       # Detects neighbour to the south-west
       if self.x == cell.x + 1 && self.y == cell.y + 1
         @neighbours << cell
       end
-
       # Detects neighbour to the west
       if self.x == cell.x + 1 && self.y == cell.y
         @neighbours << cell
       end
-
       # Detects neighbour to the north-west
       if self.x == cell.x + 1 && self.y == cell.y - 1
         @neighbours << cell
@@ -57,6 +50,22 @@ class Cell
     @neighbours
   end
 
+  def alive?
+    self.world.cells.include?(self)
+  end
+
+  def dead?
+    !self.world.cells.include?(self)
+  end
+
+  def die!
+    self.world.cells.delete(self)
+  end
+
+  def revive!
+    self.world.cells << self
+  end
+
 end
 
 class World
@@ -64,6 +73,15 @@ class World
 
   def initialize
     @cells = []
+  end
+
+  def tick!
+    self.cells.each do |cell|
+      # Rule 1
+      if cell.neighbours.count < 2
+        cell.die!
+      end
+    end
   end
   
 end
