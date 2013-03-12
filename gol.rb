@@ -85,3 +85,15 @@ class World
   end
   
 end
+
+class Game
+
+  attr_accessor :rules, :world, :cells 
+
+  def initialize(rules={}, world=World.new, cells=[])
+    @rules = rules
+    @cells = cells
+    @world = world
+  end
+
+end

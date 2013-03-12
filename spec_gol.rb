@@ -75,6 +75,13 @@ describe 'Game of life' do
       cell.should be_alive
     end
 
+#    it 'Cannot create 2 cells on the same spot' do
+#      cell_a = Cell.new(world, 1, 1)
+#      cell_b = Cell.new(world, 1, 1)
+#      cell_c = Cell.new(world, 1, 1)
+#      world.cells.count.should == 1
+#    end
+
   end
 
   context 'World' do
@@ -92,13 +99,31 @@ describe 'Game of life' do
     end
   end
 
-  context 'Rules' do
-    it '1. Any live cell with fewer than two live neighbours dies, as if caused by under-population.' do
+  context 'Rule 1: Any live cell with fewer than two live neighbours dies, as if caused by under-population.' do
+    it 'Kills a cell it it has less than 2 neighbours' do
       cell.neighbours.count.should == 0
       neighbour_cell = Cell.new(cell.world, 1, 0)
       cell.world.tick!
       cell.should be_dead
     end
+
+    it 'Doesnt kill a cell if it has 2 neighbours' do
+      neighbour_cell_a = Cell.new(cell.world, 1, 0)
+      neighbour_cell_b = Cell.new(cell.world, 1, 1)
+      cell.world.tick!
+      cell.should_not be_dead
+    end
+  end
+
+  context 'Game' do
+    let!(:game) { Game.new }
+
+    it 'should initialize new game' do
+      game.rules.should be_empty
+      game.world.is_a?(World).should be_true
+      game.cells.should be_empty
+    end
+    
   end
 
 end
