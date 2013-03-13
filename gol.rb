@@ -7,7 +7,6 @@ class Game
       @world.cell_board[seed[0]][seed[1]].alive = true
     end
   end
-
 end
 
 class World

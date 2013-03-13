@@ -28,6 +28,7 @@ describe 'Game of Life' do
       subject.should respond_to(:rows)
       subject.should respond_to(:cols)
       subject.should respond_to(:cell_board)
+      subject.should respond_to(:cells)
     end
 
     it 'Cell board initializes properly' do
@@ -83,6 +84,10 @@ describe 'Game of Life' do
     it 'Detects live neighbour to the north-west' do
       subject.cell_board[0][0].alive = true
       subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+    end
+
+    it 'Detects no live neighbours' do
+      subject.neighbours_around_cell(subject.cell_board[1][1]).should == []
     end
 
   end
