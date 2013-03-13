@@ -52,6 +52,11 @@ describe 'Game of Life' do
       subject.live_cells.count.should == 1
     end
 
+    it 'Detects live neighbour to the north' do
+      subject.cell_board[0][1].alive = true
+      subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+    end
+
   end
 
   context 'Cell' do

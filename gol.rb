@@ -37,6 +37,16 @@ class World
     cells.select { |cell| cell.alive }
   end
 
+  def neighbours_around_cell(cell)
+    @neighbours = []
+    live_cells.each do |live_cell|
+      if live_cell.x == cell.x - 1 && live_cell.y == cell.y
+        @neighbours << cell
+      end
+    end
+    @neighbours
+  end
+
 end
 
 class Cell
