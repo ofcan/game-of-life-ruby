@@ -11,8 +11,13 @@ describe 'Game of Life' do
 
     it 'Initializes new game object properly' do
       subject.world.is_a?(World).should be_true
-      subject.world.cells[0][0].alive.should be_true
-      subject.world.cells[1][1].alive.should be_true
+      subject.world.cell_board[1][1].alive.should be_true
+    end
+
+    it 'Seeds the world properly' do
+      game = Game.new(world, [[0, 1], [1, 1]])
+      game.world.cell_board[0][1].alive.should be_true
+      game.world.cell_board[1][1].alive.should be_true
     end
   end
 
@@ -22,13 +27,13 @@ describe 'Game of Life' do
     it 'Responds to proper methods' do
       subject.should respond_to(:rows)
       subject.should respond_to(:cols)
-      subject.should respond_to(:cells)
+      subject.should respond_to(:cell_board)
     end
 
-    it 'Grid initializes properly' do
-      subject.cells.is_a?(Array).should be_true
+    it 'Cell board initializes properly' do
+      subject.cell_board.is_a?(Array).should be_true
 
-      subject.cells.each do |row|
+      subject.cell_board.each do |row|
         row.is_a?(Array).should be_true
         row.each do |element|
           element.is_a?(Cell).should be_true
@@ -37,9 +42,16 @@ describe 'Game of Life' do
       end
     end
 
-    it 'Detects neighbour to the north' do
-      game.world.cells[0][0].alive_neighbours.count.should == 1
+    it 'Can count cells' do
+      subject.cells.count.should == subject.rows * subject.cols
     end
+
+    it 'Can count live cells' do
+      subject.live_cells.count.should == 0
+      subject.cell_board[1][1].alive = true
+      subject.live_cells.count.should == 1
+    end
+
   end
 
   context 'Cell' do
