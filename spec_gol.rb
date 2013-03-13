@@ -56,6 +56,34 @@ describe 'Game of Life' do
       subject.cell_board[0][1].alive = true
       subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
     end
+    it 'Detects live neighbour to the north-east' do
+      subject.cell_board[0][2].alive = true
+      subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+    end
+    it 'Detects live neighbour to the east' do
+      subject.cell_board[1][2].alive = true
+      subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+    end
+    it 'Detects live neighbour to the south-east' do
+      subject.cell_board[2][2].alive = true
+      subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+    end
+    it 'Detects live neighbour to the south' do
+      subject.cell_board[2][1].alive = true
+      subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+    end
+    it 'Detects live neighbour to the south-west' do
+      subject.cell_board[2][0].alive = true
+      subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+    end
+    it 'Detects live neighbour to the west' do
+      subject.cell_board[1][0].alive = true
+      subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+    end
+    it 'Detects live neighbour to the north-west' do
+      subject.cell_board[0][0].alive = true
+      subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+    end
 
   end
 

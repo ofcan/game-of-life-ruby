@@ -40,7 +40,36 @@ class World
   def neighbours_around_cell(cell)
     @neighbours = []
     live_cells.each do |live_cell|
+      # Neighbour to the North
       if live_cell.x == cell.x - 1 && live_cell.y == cell.y
+        @neighbours << cell
+      end
+      # Neighbour to the North-East
+      if live_cell.x == cell.x - 1 && live_cell.y == cell.y + 1
+        @neighbours << cell
+      end
+      # Neighbour to the East
+      if live_cell.x == cell.x && live_cell.y == cell.y + 1
+        @neighbours << cell
+      end
+      # Neighbour to the South-East
+      if live_cell.x == cell.x + 1 && live_cell.y == cell.y + 1
+        @neighbours << cell
+      end
+      # Neighbour to the South
+      if live_cell.x == cell.x + 1 && live_cell.y == cell.y
+        @neighbours << cell
+      end
+      # Neighbour to the South-West
+      if live_cell.x == cell.x + 1 && live_cell.y == cell.y - 1
+        @neighbours << cell
+      end
+      # Neighbour to the West
+      if live_cell.x == cell.x && live_cell.y == cell.y - 1
+        @neighbours << cell
+      end
+      # Neighbour to the North-West
+      if live_cell.x == cell.x - 1 && live_cell.y == cell.y - 1
         @neighbours << cell
       end
     end
