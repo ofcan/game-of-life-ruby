@@ -1,73 +1,21 @@
-class Cell
-  attr_accessor :world, :x, :y
-  def initialize(world = World.new, x = 0, y = 0)
+class Game
+  attr_accessor :world, :cells
+
+  def initialize(world=World.new, cells=[])
     @world = world
-    @world.cells << self
-    @x = x
-    @y = y
+    @cells = cells
   end
 
-  def neighbours
-    @neighbours = []
-    world.cells.each do |cell|
-      # Detects neighbour to the north
-      if self.x == cell.x && self.y == cell.y - 1
-        @neighbours << cell
-      end
-      # Detects neighbour to the north-east
-      if self.x == cell.x - 1 && self.y == cell.y - 1
-        @neighbours << cell
-      end
-      # Detects neighbour to the east
-      if self.x == cell.x - 1 && self.y == cell.y
-        @neighbours << cell
-      end
-      # Detects neighbour to the south-east
-      if self.x == cell.x - 1 && self.y == cell.y + 1
-        @neighbours << cell
-      end
-      # Detects neighbour to the south
-      if self.x == cell.x && self.y == cell.y + 1
-        @neighbours << cell
-      end
-      # Detects neighbour to the south-west
-      if self.x == cell.x + 1 && self.y == cell.y + 1
-        @neighbours << cell
-      end
-      # Detects neighbour to the west
-      if self.x == cell.x + 1 && self.y == cell.y
-        @neighbours << cell
-      end
-      # Detects neighbour to the north-west
-      if self.x == cell.x + 1 && self.y == cell.y - 1
-        @neighbours << cell
-      end
-    end
-    @neighbours
-  end
-
-  def alive?
-    world.cells.include?(self)
-  end
-
-  def dead?
-    !world.cells.include?(self)
-  end
-
-  def revive!
-    world.cells.push(self)
-  end
-
-  def die!
-    world.cells.delete(self)
-  end
 end
 
 class World
-  attr_accessor :cells
+  attr_accessor :cells, :rows, :cols, :grid
   
-  def initialize
+  def initialize(rows=5, cols=5)
     @cells = []
+    @grid = Array.new(rows) do
+      Array.new(cols)
+    end
   end
 
   def tick!
