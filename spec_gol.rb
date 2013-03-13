@@ -10,6 +10,8 @@ describe 'Game of Life' do
 
     it 'Initializes new game object properly' do
       subject.world.is_a?(World).should be_true
+      subject.world.grid[0][0].alive.should be_true
+      subject.world.grid[1][1].alive.should be_true
     end
   end
 

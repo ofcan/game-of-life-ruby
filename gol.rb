@@ -1,8 +1,11 @@
 class Game
   attr_accessor :world
 
-  def initialize(world=World.new)
+  def initialize(world=World.new, seeds=[[0, 0], [1, 1]])
     @world = world
+    seeds.each do |seed|
+      @world.grid[seed[0]][seed[1]].alive = true
+    end
   end
 
 end
