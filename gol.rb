@@ -1,29 +1,29 @@
 class Game
-  attr_accessor :world, :cells
+  attr_accessor :world
 
-  def initialize(world=World.new, cells=[])
+  def initialize(world=World.new)
     @world = world
-    @cells = cells
   end
 
 end
 
 class World
-  attr_accessor :cells, :rows, :cols, :grid
+  attr_accessor :rows, :cols, :grid
   
-  def initialize(rows=5, cols=5)
-    @cells = []
+  def initialize(rows=3, cols=3)
     @grid = Array.new(rows) do
-      Array.new(cols)
-    end
-  end
-
-  def tick!
-    cells.each do |cell|
-      if cell.neighbours.count < 2
-        cell.die!
+      Array.new(cols) do
+        Cell.new
       end
     end
   end
 
+end
+
+class Cell
+  attr_accessor :alive
+  
+  def initialize
+    @alive = false
+  end
 end
