@@ -27,6 +27,12 @@ describe 'Game of Life' do
       game.world.cell_board[0][1].alive.should be_true
       game.world.cell_board[1][1].alive.should be_true
     end
+
+    it 'Counts cells properly' do
+      game = Game.new(world, [[0, 1], [1, 1], [2, 1]])
+      world.live_cells.count.should == 3
+      world.dead_cells.count.should == 6
+    end
   end
 
   context 'World' do
@@ -102,6 +108,11 @@ describe 'Game of Life' do
       subject.live_cells.should == []
       subject.randomly_populate
       subject.live_cells.should_not == []
+    end
+
+    it 'Counts live and dead cells properly' do
+      subject.randomly_populate
+      (subject.live_cells.count + subject.dead_cells.count).should == subject.cells.count
     end
 
   end

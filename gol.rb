@@ -79,6 +79,10 @@ class World
     cells.select { |cell| cell.alive }
   end
 
+  def dead_cells
+    cells - live_cells
+  end
+
   def live_neighbours_around_cell(cell)
     live_neighbours = []
     live_cells.each do |live_cell|
