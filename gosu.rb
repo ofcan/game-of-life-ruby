@@ -15,27 +15,28 @@ class GameOfLifeWindow < Gosu::Window
     @white = Gosu::Color.new(0xffededed)
     @black = Gosu::Color.new(0xcc121212)
 
-    # World
+    # Game world
     @rows = height/10
     @cols = width/10
-    @world = World.new(@rows, @cols)
+    world = World.new(@cols, @rows)
+    @game = Game.new(world)
     @row_height = height/@rows
     @col_width = width/@cols
-    @world.randomly_populate
+    @game.world.randomly_populate
 
-#    @generation = 0
+    @generation = 0
   end
 
   def update
-#    unless @world.live_cells.count == 0
-#      @world.tick!
+#    unless @game.world.live_cells.count == 0
+#      @game.tick!
 #      @generation += 1
 #    end
   end
 
   def draw
     draw_background
-    @world.cells.each do |cell|
+    @game.world.cells.each do |cell|
       if cell.alive?
         draw_quad(cell.x * @col_width, cell.y * @row_height, @black,
                   cell.x * @col_width + @col_width, cell.y * @row_height, @black,
