@@ -9,11 +9,23 @@ class Game
   end
   
   def tick!
+    @next_round_live_cells = []
+    @next_round_dead_cells = []
+
     # Rule 1
-    world.cells.each do |cell|
-      if world.neighbours_around_cell(cell).count < 2
-        cell.die!
+    @world.cells.each do |cell|
+      if @world.live_neighbours_around_cell(cell).count < 2
+        @next_round_dead_cells << cell
+      else
+        @next_round_live_cells << cell
       end
+    end
+
+    @next_round_live_cells.each do |cell|
+      cell.revive!
+    end
+    @next_round_dead_cells.each do |cell|
+      cell.die!
     end
   end
 end
@@ -21,6 +33,14 @@ end
 class World
   attr_accessor :rows, :cols, :cell_board, :cells
   
+  # Scheme of default initialized world matrix
+  #------------------------
+  #     0     1     2
+  # 0 [ dead, dead, dead ]
+  # 1 [ dead, alive, dead ]
+  # 2 [ dead, dead, dead ]
+  #-----------------------
+
   def initialize(rows=3, cols=3)
     @rows = rows
     @cols = cols
@@ -45,43 +65,43 @@ class World
     cells.select { |cell| cell.alive }
   end
 
-  def neighbours_around_cell(cell)
-    @neighbours = []
+  def live_neighbours_around_cell(cell)
+    @live_neighbours = []
     live_cells.each do |live_cell|
       # Neighbour to the North
       if live_cell.x == cell.x - 1 && live_cell.y == cell.y
-        @neighbours << cell
+        @live_neighbours << live_cell
       end
       # Neighbour to the North-East
       if live_cell.x == cell.x - 1 && live_cell.y == cell.y + 1
-        @neighbours << cell
+        @live_neighbours << live_cell
       end
       # Neighbour to the East
       if live_cell.x == cell.x && live_cell.y == cell.y + 1
-        @neighbours << cell
+        @live_neighbours << live_cell
       end
       # Neighbour to the South-East
       if live_cell.x == cell.x + 1 && live_cell.y == cell.y + 1
-        @neighbours << cell
+        @live_neighbours << live_cell
       end
       # Neighbour to the South
       if live_cell.x == cell.x + 1 && live_cell.y == cell.y
-        @neighbours << cell
+        @live_neighbours << live_cell
       end
       # Neighbour to the South-West
       if live_cell.x == cell.x + 1 && live_cell.y == cell.y - 1
-        @neighbours << cell
+        @live_neighbours << live_cell
       end
       # Neighbour to the West
       if live_cell.x == cell.x && live_cell.y == cell.y - 1
-        @neighbours << cell
+        @live_neighbours << live_cell
       end
       # Neighbour to the North-West
       if live_cell.x == cell.x - 1 && live_cell.y == cell.y - 1
-        @neighbours << cell
+        @live_neighbours << live_cell
       end
     end
-    @neighbours
+    @live_neighbours
   end
 
 end
@@ -95,11 +115,19 @@ class Cell
     @alive = false
   end
 
+  def alive?
+    alive
+  end
+
   def dead?
     !alive
   end
 
   def die!
     self.alive = false
+  end
+
+  def revive!
+    self.alive = true
   end
 end

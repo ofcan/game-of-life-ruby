@@ -55,39 +55,39 @@ describe 'Game of Life' do
 
     it 'Detects live neighbour to the north' do
       subject.cell_board[0][1].alive = true
-      subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+      subject.live_neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
     end
     it 'Detects live neighbour to the north-east' do
       subject.cell_board[0][2].alive = true
-      subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+      subject.live_neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
     end
     it 'Detects live neighbour to the east' do
       subject.cell_board[1][2].alive = true
-      subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+      subject.live_neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
     end
     it 'Detects live neighbour to the south-east' do
       subject.cell_board[2][2].alive = true
-      subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+      subject.live_neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
     end
     it 'Detects live neighbour to the south' do
       subject.cell_board[2][1].alive = true
-      subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+      subject.live_neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
     end
     it 'Detects live neighbour to the south-west' do
       subject.cell_board[2][0].alive = true
-      subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+      subject.live_neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
     end
     it 'Detects live neighbour to the west' do
       subject.cell_board[1][0].alive = true
-      subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+      subject.live_neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
     end
     it 'Detects live neighbour to the north-west' do
       subject.cell_board[0][0].alive = true
-      subject.neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+      subject.live_neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
     end
 
     it 'Detects no live neighbours' do
-      subject.neighbours_around_cell(subject.cell_board[1][1]).should == []
+      subject.live_neighbours_around_cell(subject.cell_board[1][1]).should == []
     end
 
   end
@@ -104,11 +104,25 @@ describe 'Game of Life' do
 
     context 'Rule #1: Any live cell with fewer than two live neighbours dies, as if caused by under-population.' do
 
-      it 'Kills live cell with fever than 2 live neighbours' do
+      it 'Kills live cell with no neighbours' do
+        game.world.cell_board[1][1].should be_alive
+        game.tick!
+        game.world.cell_board[1][1].should be_dead
+      end
+
+      it 'Kills live cell with 1 live neighbour' do
         game = Game.new(world, [[0, 1], [1, 1]])
         game.tick!
         game.world.cell_board[0][1].should be_dead
         game.world.cell_board[1][1].should be_dead
+      end
+
+      it 'Doesnt kill live cell with 2 neighbours' do
+        game = Game.new(world, [[0, 1], [1, 1], [2, 1]])
+        game.tick!
+        world.cell_board[0][1].should be_dead
+        world.cell_board[1][1].should be_alive
+        world.cell_board[2][1].should be_dead
       end
 
     end
