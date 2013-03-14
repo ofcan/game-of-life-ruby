@@ -1,7 +1,7 @@
 class Game
   attr_accessor :world
 
-  def initialize(world=World.new, seeds=[[1, 1]])
+  def initialize(world=World.new, seeds=[])
     @world = world
     seeds.each do |seed|
       world.cell_board[seed[0]][seed[1]].alive = true
@@ -116,6 +116,14 @@ class World
       end
     end
     live_neighbours
+  end
+
+  def randomly_populate
+    cells.each do |cell|
+      cell.alive = [true, false].sample
+      # cell.alive = (rand(2) == 1)
+      # rand(2) == 1 ? cell.alive = true : cell.alive = false
+    end
   end
 
 end

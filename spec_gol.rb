@@ -2,9 +2,9 @@ require 'rspec'
 require_relative 'gol.rb'
 
 describe 'Game of Life' do
-  let!(:game) { Game.new }
-  let!(:world) { World.new }
   let!(:cell) { Cell.new }
+  let!(:world) { World.new }
+  let!(:game) { Game.new(world, [[1, 1]]) }
 
   # Scheme of default initialized world matrix
   #------------------------
@@ -15,7 +15,7 @@ describe 'Game of Life' do
   #-----------------------
 
   context 'Game' do
-    subject { Game.new }
+    subject { game }
 
     it 'Initializes new game object properly' do
       subject.world.is_a?(World).should be_true
@@ -96,6 +96,12 @@ describe 'Game of Life' do
 
     it 'Detects no live neighbours' do
       subject.live_neighbours_around_cell(subject.cell_board[1][1]).should == []
+    end
+
+    it 'Randomly populates the world' do
+      subject.live_cells.should == []
+      subject.randomly_populate
+      subject.live_cells.should_not == []
     end
 
   end
