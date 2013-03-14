@@ -165,6 +165,16 @@ describe 'Game of Life' do
       end
     end
 
+    context 'Rule #4: Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.' do
+      it 'Revives dead cell with 3 neighbours' do
+        game = Game.new(world, [[0, 1], [1, 1], [2, 1]])
+        world.live_neighbours_around_cell(world.cell_board[1][0]).count.should == 3
+        game.tick!
+        world.cell_board[1][0].should be_alive
+        world.cell_board[1][2].should be_alive
+      end
+    end
+
   end
 
 end

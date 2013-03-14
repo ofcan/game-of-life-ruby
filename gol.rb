@@ -12,24 +12,26 @@ class Game
     next_round_live_cells = []
     next_round_dead_cells = []
 
-    #Rule #1: Any live cell with fewer than two live neighbours dies, as if caused by under-population.
     world.cells.each do |cell|
+      # Rule 1: 
+      # Any live cell with fewer than two live neighbours dies
       if world.live_neighbours_around_cell(cell).count < 2
         next_round_dead_cells << cell
       end
-    end
-
-    # Rule #2: Any live cell with two or three live neighbours lives on to the next generation.
-    world.cells.each do |cell|
+      # Rule 2:
+      # Any live cell with two or three live neighbours lives on to the next generation
       if cell.alive? && world.live_neighbours_around_cell(cell).count == (2 || 3)
         next_round_live_cells << cell
       end
-    end
-
-    #Rule #3: Any live cell with more than three live neighbours dies, as if by overcrowding.
-    world.cells.each do |cell|
+      # Rule 3:
+      # Any live cell with more than three live neighbours dies
       if cell.alive? && world.live_neighbours_around_cell(cell).count > 3
         next_round_dead_cells << cell
+      end
+      # Rule 4:
+      # Any dead cell with exactly three live neighbours becomes a live cell
+      if cell.dead? && world.live_neighbours_around_cell(cell).count == 3
+        next_round_live_cells << cell
       end
     end
 
