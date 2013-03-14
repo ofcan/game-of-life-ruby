@@ -26,6 +26,13 @@ class Game
       end
     end
 
+    #Rule #3: Any live cell with more than three live neighbours dies, as if by overcrowding.
+    world.cells.each do |cell|
+      if cell.alive? && world.live_neighbours_around_cell(cell).count > 3
+        next_round_dead_cells << cell
+      end
+    end
+
     next_round_live_cells.each do |cell|
       cell.revive!
     end
