@@ -62,7 +62,7 @@ class World
 
     @cell_board = Array.new(rows) do |row|
       Array.new(cols) do |col|
-        Cell.new(row, col)
+        Cell.new(col, row) # note col is 1st, than is row
       end
     end
 
