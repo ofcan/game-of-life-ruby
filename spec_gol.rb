@@ -101,8 +101,18 @@ describe 'Game of Life' do
   end
 
   context 'Rules' do
+
     context 'Rule #1: Any live cell with fewer than two live neighbours dies, as if caused by under-population.' do
+
+      it 'Kills live cell with fever than 2 live neighbours' do
+        game = Game.new(world, [[0, 1], [1, 1]])
+        game.tick!
+        game.world.cell_board[0][1].should be_dead
+        game.world.cell_board[1][1].should be_dead
+      end
+
     end
+
   end
 
 end
