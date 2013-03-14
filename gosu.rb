@@ -4,7 +4,9 @@ require_relative 'gol.rb'
 class GameWindow < Gosu::Window
 
   def initialize
-    super 800, 600, false
+    height = 800
+    width = 600
+    super height, width, false
     self.caption = 'My Game of Life'
   end
 

@@ -106,6 +106,14 @@ describe 'Game of Life' do
     it 'Initializes new cell object properly' do
       subject.alive.should be_false
     end
+
+    it 'Responds to proper methods' do
+      subject.should respond_to(:x)
+      subject.should respond_to(:y)
+      subject.should respond_to(:alive)
+      subject.should respond_to(:height)
+      subject.should respond_to(:width)
+    end
   end
 
   context 'Rules' do

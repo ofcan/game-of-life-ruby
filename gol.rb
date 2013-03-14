@@ -121,12 +121,16 @@ class World
 end
 
 class Cell
-  attr_accessor :x, :y, :alive
+  attr_accessor :x, :y, :alive, :height, :width
   
-  def initialize(x=0, y=0)
+  def initialize(x=0, y=0, height=20)
     @x = x
     @y = y
     @alive = false
+
+    # Gosu
+    @height = height
+    @width = width
   end
 
   def alive?
