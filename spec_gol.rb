@@ -1,10 +1,12 @@
 require 'rspec'
 require_relative 'gol.rb'
+require_relative 'gosu.rb'
 
 describe 'Game of Life' do
   let!(:cell) { Cell.new }
   let!(:world) { World.new }
   let!(:game) { Game.new(world, [[1, 1]]) }
+  let!(:window) { GameOfLifeWindow.new }
 
   # Scheme of default initialized world matrix
   #------------------------
@@ -128,8 +130,6 @@ describe 'Game of Life' do
       subject.should respond_to(:x)
       subject.should respond_to(:y)
       subject.should respond_to(:alive)
-      subject.should respond_to(:height)
-      subject.should respond_to(:width)
     end
   end
 
@@ -200,6 +200,15 @@ describe 'Game of Life' do
       end
     end
 
+  end
+
+  context 'Game of life window' do
+    subject { window }
+
+    it 'Responds to proper methods' do
+      subject.should respond_to(:height)
+      subject.should respond_to(:width)
+    end
   end
 
 end

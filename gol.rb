@@ -80,7 +80,7 @@ class World
   end
 
   def dead_cells
-    cells - live_cells
+    cells.select { |cell| cell.alive == false }
   end
 
   def live_neighbours_around_cell(cell)
@@ -125,24 +125,22 @@ class World
   def randomly_populate
     cells.each do |cell|
       cell.alive = [true, false].sample
-      # cell.alive = (rand(2) == 1)
-      # rand(2) == 1 ? cell.alive = true : cell.alive = false
     end
   end
 
 end
 
 class Cell
-  attr_accessor :x, :y, :alive, :height, :width
+  attr_accessor :x, :y, :alive #, :height, :width
   
-  def initialize(x=0, y=0, height=20, width=20)
+  def initialize(x=0, y=0)
     @x = x
     @y = y
     @alive = false
 
     # Gosu
-    @height = height
-    @width = width
+    # @height = height
+    # @width = width
   end
 
   def alive?
