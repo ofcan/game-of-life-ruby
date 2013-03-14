@@ -123,7 +123,7 @@ end
 class Cell
   attr_accessor :x, :y, :alive, :height, :width
   
-  def initialize(x=0, y=0, height=20)
+  def initialize(x=0, y=0, height=20, width=20)
     @x = x
     @y = y
     @alive = false
