@@ -6,6 +6,14 @@ describe 'Game of Life' do
   let!(:world) { World.new }
   let!(:cell) { Cell.new }
 
+  # Scheme of default initialized world matrix
+  #------------------------
+  #     0     1     2
+  # 0 [ dead, dead, dead ]
+  # 1 [ dead, alive, dead ]
+  # 2 [ dead, dead, dead ]
+  #-----------------------
+
   context 'Game' do
     subject { Game.new }
 
@@ -103,7 +111,6 @@ describe 'Game of Life' do
   context 'Rules' do
 
     context 'Rule #1: Any live cell with fewer than two live neighbours dies, as if caused by under-population.' do
-
       it 'Kills live cell with no neighbours' do
         game.world.cell_board[1][1].should be_alive
         game.tick!
@@ -120,11 +127,29 @@ describe 'Game of Life' do
       it 'Doesnt kill live cell with 2 neighbours' do
         game = Game.new(world, [[0, 1], [1, 1], [2, 1]])
         game.tick!
+        world.cell_board[1][1].should be_alive
+      end
+    end
+
+    context 'Rule #2: Any live cell with two or three live neighbours lives on to the next generation.' do
+      it 'Should keep alive cell with 2 neighbours to next generation' do
+        game = Game.new(world, [[0, 1], [1, 1], [2, 1]])
+        world.live_neighbours_around_cell(world.cell_board[1][1]).count.should == 2
+        game.tick!
         world.cell_board[0][1].should be_dead
         world.cell_board[1][1].should be_alive
         world.cell_board[2][1].should be_dead
       end
 
+      it 'Should keep alive cell with 3 neighbours to next generation' do
+        game = Game.new(world, [[0, 1], [1, 1], [2, 1], [2, 2]])
+        world.live_neighbours_around_cell(world.cell_board[1][1]).count.should == 3
+        game.tick!
+        world.cell_board[0][1].should be_dead
+        world.cell_board[1][1].should be_alive
+        world.cell_board[2][1].should be_alive
+        world.cell_board[2][2].should be_alive
+      end
     end
 
   end
