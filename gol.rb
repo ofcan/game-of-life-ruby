@@ -15,7 +15,7 @@ class Game
     world.cells.each do |cell|
       # Rule 1: 
       # Any live cell with fewer than two live neighbours dies
-      if world.live_neighbours_around_cell(cell).count < 2
+      if cell.alive? && world.live_neighbours_around_cell(cell).count < 2
         next_round_dead_cells << cell
       end
       # Rule 2:
