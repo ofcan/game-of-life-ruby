@@ -12,6 +12,12 @@ class Game
     next_round_live_cells = []
     next_round_dead_cells = []
 
+#    To see your progress while optimising...
+#
+#    @world.cells.each_with_index do |cell, index|
+#      puts "#{index} out of #{@world.cells.size}"
+#    end
+
     @world.cells.each do |cell|
       neighbour_count = world.live_neighbours_around_cell(cell).count
       # Rule 1: 
@@ -63,7 +69,7 @@ class World
 
     @cell_board = Array.new(rows) do |row|
       Array.new(cols) do |col|
-        Cell.new(col, row) # note col is 1st, than is row
+        Cell.new(col, row) # Note col is 1st
       end
     end
 
