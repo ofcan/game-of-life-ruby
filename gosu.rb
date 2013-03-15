@@ -8,12 +8,12 @@ class GameOfLifeWindow < Gosu::Window
     # Basics
     @height = height
     @width = width
-    super height, width, false
+    super height, width, false, 500
     self.caption = 'My Game of Life'
 
     # Colors
     @white = Gosu::Color.new(0xffededed)
-    @black = Gosu::Color.new(0xcc121212)
+    @black = Gosu::Color.new(0xff121212)
 
     # Game world
     @rows = height/10
@@ -30,12 +30,11 @@ class GameOfLifeWindow < Gosu::Window
   def update
 #    unless @game.world.live_cells.count == 0
 #      @game.tick!
-#      @generation += 1
+      @generation += 1
 #    end
   end
 
   def draw
-    draw_background
     @game.world.cells.each do |cell|
       if cell.alive?
         draw_quad(cell.x * @col_width, cell.y * @row_height, @black,
@@ -43,6 +42,15 @@ class GameOfLifeWindow < Gosu::Window
                   cell.x * @col_width + @col_width, cell.y * @row_height + @row_height, @black,
                   cell.x * @col_width, cell.y * @row_height + @row_height, @black)
       end
+    end
+  end
+
+  def button_down(id)
+    case id
+    when Gosu::KbSpace
+      @game.world.randomly_populate
+    when Gosu::KbEscape
+      close
     end
   end
 
