@@ -1,5 +1,9 @@
 # Implementation of Conways game of Life in Ruby
 
+This is how the end result looks like:
+
+![Sven's Game of Life in Ruby](gol_ruby_screenshot.png)
+
 ## Rules of the game:
 
 The universe of the Game of Life is an infinite two-dimensional orthogonal grid
