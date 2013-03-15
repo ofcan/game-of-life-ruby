@@ -12,8 +12,9 @@ class GameOfLifeWindow < Gosu::Window
     self.caption = "Sven's Game of Life"
 
     # Colors
-    @white = Gosu::Color.new(0xffededed)
-    @black = Gosu::Color.new(0xff121212)
+    @background = Gosu::Color.new(0xffdedede)
+    @alive = Gosu::Color.new(0xff121212)
+    @dead = Gosu::Color.new(0xffededed)
 
     # Game world
     @rows = height/10
@@ -37,10 +38,15 @@ class GameOfLifeWindow < Gosu::Window
     draw_background
     @game.world.cells.each do |cell|
       if cell.alive?
-        draw_quad(cell.x * @col_width, cell.y * @row_height, @black,
-                  cell.x * @col_width + (@col_width - 1), cell.y * @row_height, @black,
-                  cell.x * @col_width + (@col_width - 1), cell.y * @row_height + (@row_height - 1), @black,
-                  cell.x * @col_width, cell.y * @row_height + (@row_height - 1), @black)
+        draw_quad(cell.x * @col_width, cell.y * @row_height, @alive,
+                  cell.x * @col_width + (@col_width - 1), cell.y * @row_height, @alive,
+                  cell.x * @col_width + (@col_width - 1), cell.y * @row_height + (@row_height - 1), @alive,
+                  cell.x * @col_width, cell.y * @row_height + (@row_height - 1), @alive)
+      else
+        draw_quad(cell.x * @col_width, cell.y * @row_height, @dead,
+                  cell.x * @col_width + (@col_width - 1), cell.y * @row_height, @dead,
+                  cell.x * @col_width + (@col_width - 1), cell.y * @row_height + (@row_height - 1), @dead,
+                  cell.x * @col_width, cell.y * @row_height + (@row_height - 1), @dead)
       end
     end
   end
@@ -59,10 +65,10 @@ class GameOfLifeWindow < Gosu::Window
   end
 
   def draw_background
-    draw_quad(0, 0, @white,
-              width, 0, @white,
-              width, height, @white,
-              0, height, @white)
+    draw_quad(0, 0, @background,
+              width, 0, @background,
+              width, height, @background,
+              0, height, @background)
   end
 
 end
