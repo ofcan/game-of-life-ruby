@@ -22,22 +22,22 @@ class Game
       neighbour_count = self.world.live_neighbours_around_cell(cell).count
       # Rule 1: 
       # Any live cell with fewer than two live neighbours dies
-      if neighbour_count < 2
+      if cell.alive? && neighbour_count < 2
         next_round_dead_cells << cell
       end
       # Rule 2:
       # Any live cell with two or three live neighbours lives on to the next generation
-      if [2, 3].include? neighbour_count
+      if cell.alive? && ([2, 3].include? neighbour_count)
         next_round_live_cells << cell
       end
       # Rule 3:
       # Any live cell with more than three live neighbours dies
-      if neighbour_count > 3
+      if cell.alive? && neighbour_count > 3
         next_round_dead_cells << cell
       end
       # Rule 4:
       # Any dead cell with exactly three live neighbours becomes a live cell
-      if neighbour_count == 3
+      if cell.dead? && neighbour_count == 3
         next_round_live_cells << cell
       end
     end
