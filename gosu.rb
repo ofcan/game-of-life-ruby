@@ -3,12 +3,12 @@ require_relative 'gol.rb'
 
 class GameOfLifeWindow < Gosu::Window
 
-  def initialize(height=800, width=600)
+  def initialize(height=1800, width=900)
 
     # Basics
     @height = height
     @width = width
-    super height, width, false, 600
+    super height, width, false
     self.caption = "Sven's Game of Life"
 
     # Colors
@@ -21,8 +21,8 @@ class GameOfLifeWindow < Gosu::Window
     @cols = width/10
     @world = World.new(@cols, @rows) # Note: col is 1st
     @game = Game.new(@world)
-    @row_height = height/@rows*2
-    @col_width = width/@cols*2
+    @row_height = height/@rows
+    @col_width = width/@cols
     @game.world.randomly_populate
 
     @generation = 0

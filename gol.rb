@@ -12,12 +12,6 @@ class Game
     next_round_live_cells = []
     next_round_dead_cells = []
 
-#    To see your progress while optimising...
-#
-#    @world.cells.each_with_index do |cell, index|
-#      puts "#{index} out of #{@world.cells.size}"
-#    end
-
     @world.cells.each do |cell|
       neighbour_count = self.world.live_neighbours_around_cell(cell).count
       # Rule 1: 
