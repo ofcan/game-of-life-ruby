@@ -8,7 +8,7 @@ class GameOfLifeWindow < Gosu::Window
     # Basics
     @height = height
     @width = width
-    super height, width, false
+    super height, width, false, 500
     self.caption = "Sven's Game of Life"
 
     # Colors
@@ -73,5 +73,4 @@ class GameOfLifeWindow < Gosu::Window
 
 end
 
-window = GameOfLifeWindow.new
-window.show
+GameOfLifeWindow.new.show

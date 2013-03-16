@@ -3,7 +3,7 @@ require_relative 'gol.rb'
 require_relative 'gosu.rb'
 
 describe 'Game of Life' do
-  let!(:cell) { Cell.new }
+  let!(:cell) { Cell.new(1,1) }
   let!(:world) { World.new }
   let!(:game) { Game.new(world, [[1, 1]]) }
   let!(:window) { GameOfLifeWindow.new }
@@ -70,36 +70,36 @@ describe 'Game of Life' do
     end
 
     it 'Detects live neighbour to the north' do
-      subject.cell_board[0][1].alive = true
-      subject.live_neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+      subject.cell_board[cell.y - 1][cell.x].alive = true
+      subject.live_neighbours_around_cell(cell).count.should == 1
     end
     it 'Detects live neighbour to the north-east' do
-      subject.cell_board[0][2].alive = true
-      subject.live_neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+      subject.cell_board[cell.y - 1][cell.x + 1].alive = true
+      subject.live_neighbours_around_cell(cell).count.should == 1
     end
     it 'Detects live neighbour to the east' do
-      subject.cell_board[1][2].alive = true
-      subject.live_neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+      subject.cell_board[cell.y][cell.x + 1].alive = true
+      subject.live_neighbours_around_cell(cell).count.should == 1
     end
     it 'Detects live neighbour to the south-east' do
-      subject.cell_board[2][2].alive = true
-      subject.live_neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+      subject.cell_board[cell.y + 1][cell.x + 1].alive = true
+      subject.live_neighbours_around_cell(cell).count.should == 1
     end
     it 'Detects live neighbour to the south' do
-      subject.cell_board[2][1].alive = true
-      subject.live_neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+      subject.cell_board[cell.y + 1][cell.x].alive = true
+      subject.live_neighbours_around_cell(cell).count.should == 1
     end
     it 'Detects live neighbour to the south-west' do
-      subject.cell_board[2][0].alive = true
-      subject.live_neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+      subject.cell_board[cell.y + 1][cell.x - 1].alive = true
+      subject.live_neighbours_around_cell(cell).count.should == 1
     end
     it 'Detects live neighbour to the west' do
-      subject.cell_board[1][0].alive = true
-      subject.live_neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+      subject.cell_board[cell.y][cell.x - 1].alive = true
+      subject.live_neighbours_around_cell(cell).count.should == 1
     end
     it 'Detects live neighbour to the north-west' do
-      subject.cell_board[0][0].alive = true
-      subject.live_neighbours_around_cell(subject.cell_board[1][1]).count.should == 1
+      subject.cell_board[cell.y - 1][cell.x - 1].alive = true
+      subject.live_neighbours_around_cell(cell).count.should == 1
     end
 
     it 'Detects no live neighbours' do

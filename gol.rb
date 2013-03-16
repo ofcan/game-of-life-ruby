@@ -19,25 +19,25 @@ class Game
 #    end
 
     @world.cells.each do |cell|
-      neighbour_count = world.live_neighbours_around_cell(cell).count
+      neighbour_count = self.world.live_neighbours_around_cell(cell).count
       # Rule 1: 
       # Any live cell with fewer than two live neighbours dies
-      if cell.alive? && neighbour_count < 2
+      if neighbour_count < 2
         next_round_dead_cells << cell
       end
       # Rule 2:
       # Any live cell with two or three live neighbours lives on to the next generation
-      if cell.alive? && neighbour_count == (2 || 3)
+      if [2, 3].include? neighbour_count
         next_round_live_cells << cell
       end
       # Rule 3:
       # Any live cell with more than three live neighbours dies
-      if cell.alive? && neighbour_count > 3
+      if neighbour_count > 3
         next_round_dead_cells << cell
       end
       # Rule 4:
       # Any dead cell with exactly three live neighbours becomes a live cell
-      if cell.dead? && neighbour_count == 3
+      if neighbour_count == 3
         next_round_live_cells << cell
       end
     end
@@ -80,6 +80,7 @@ class World
         end
       end
     end
+
   end
 
   def live_cells
@@ -92,39 +93,45 @@ class World
 
   def live_neighbours_around_cell(cell)
     live_neighbours = []
-    live_cells.each do |live_cell|
-      # Neighbour to the North
-      if live_cell.x == cell.x - 1 && live_cell.y == cell.y
-        live_neighbours << live_cell
-      end
-      # Neighbour to the North-East
-      if live_cell.x == cell.x - 1 && live_cell.y == cell.y + 1
-        live_neighbours << live_cell
-      end
-      # Neighbour to the East
-      if live_cell.x == cell.x && live_cell.y == cell.y + 1
-        live_neighbours << live_cell
-      end
-      # Neighbour to the South-East
-      if live_cell.x == cell.x + 1 && live_cell.y == cell.y + 1
-        live_neighbours << live_cell
-      end
-      # Neighbour to the South
-      if live_cell.x == cell.x + 1 && live_cell.y == cell.y
-        live_neighbours << live_cell
-      end
-      # Neighbour to the South-West
-      if live_cell.x == cell.x + 1 && live_cell.y == cell.y - 1
-        live_neighbours << live_cell
-      end
-      # Neighbour to the West
-      if live_cell.x == cell.x && live_cell.y == cell.y - 1
-        live_neighbours << live_cell
-      end
-      # Neighbour to the North-West
-      if live_cell.x == cell.x - 1 && live_cell.y == cell.y - 1
-        live_neighbours << live_cell
-      end
+    # Neighbour to the North-East
+    if cell.y > 0 and cell.x < (cols - 1)
+      candidate = self.cell_board[cell.y - 1][cell.x + 1]
+      live_neighbours << candidate if candidate.alive?
+    end
+    # Neighbour to the South-East
+    if cell.y < (rows - 1) and cell.x < (cols - 1)
+      candidate = self.cell_board[cell.y + 1][cell.x + 1]
+      live_neighbours << candidate if candidate.alive?
+    end
+    # Neighbours to the South-West
+    if cell.y < (rows - 1) and cell.x > 0
+      candidate = self.cell_board[cell.y + 1][cell.x - 1]
+      live_neighbours << candidate if candidate.alive?
+    end
+    # Neighbours to the North-West
+    if cell.y > 0 and cell.x > 0
+      candidate = self.cell_board[cell.y - 1][cell.x - 1]
+      live_neighbours << candidate if candidate.alive?
+    end
+    # Neighbour to the North
+    if cell.y > 0
+      candidate = self.cell_board[cell.y - 1][cell.x]
+      live_neighbours << candidate if candidate.alive?
+    end
+    # Neighbour to the East
+    if cell.x < (cols - 1)
+      candidate = self.cell_board[cell.y][cell.x + 1]
+      live_neighbours << candidate if candidate.alive?
+    end
+    # Neighbour to the South
+    if cell.y < (rows - 1)
+      candidate = self.cell_board[cell.y + 1][cell.x]
+      live_neighbours << candidate if candidate.alive?
+    end
+    # Neighbours to the West
+    if cell.x > 0
+      candidate = self.cell_board[cell.y][cell.x - 1]
+      live_neighbours << candidate if candidate.alive?
     end
     live_neighbours
   end
@@ -138,30 +145,21 @@ class World
 end
 
 class Cell
-  attr_accessor :x, :y, :alive #, :height, :width
+  attr_accessor :x, :y, :alive
   
   def initialize(x=0, y=0)
     @x = x
     @y = y
     @alive = false
-
-    # Gosu
-    # @height = height
-    # @width = width
   end
 
-  def alive?
-    alive
-  end
 
-  def dead?
-    !alive
-  end
+  def alive?; alive; end
+  def dead?; !alive; end
 
   def die!
     @alive = false
   end
-
   def revive!
     @alive = true # same as > self.alive = true
   end
